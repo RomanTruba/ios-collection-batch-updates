@@ -28,10 +28,10 @@
 
 /// Performs given updates in batch and animated fashion
 /// @param updates updates to be performed: array of BMACollectionUpdate instances, if nil reloads data
-/// @param applyChangesBlock block in which changes should be applied
+/// @param applyChangesToModelBlock block in which changes should be applied
 /// @param reloadCellBlock optional block in which cells are to be updated
 /// @param completionBlock optional completion block
-- (void)bma_performBatchUpdates:(NSArray /*<BMACollectionUpdate *>*/ *)updates
+- (void)bma_performBatchUpdates:(NSArray *)updates
        applyChangesToModelBlock:(void (^)(void))applyChangesToModelBlock
                 reloadCellBlock:(void (^)(UITableViewCell *cell, NSIndexPath *indexPath))reloadCellBlock
                 completionBlock:(void (^)(void))completionBlock;
