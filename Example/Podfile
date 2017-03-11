@@ -1,3 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-pod 'BMACollectionBatchUpdates', :path => '..'
+target 'BatchUpdatesExample' do
+    pod 'BMACollectionBatchUpdates', :path => '..'
+end

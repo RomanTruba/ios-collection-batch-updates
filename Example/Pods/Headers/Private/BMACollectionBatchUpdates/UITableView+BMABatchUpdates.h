@@ -1,1 +1,0 @@
-../../../../../BMACollectionBatchUpdates/UITableView+BMABatchUpdates.h

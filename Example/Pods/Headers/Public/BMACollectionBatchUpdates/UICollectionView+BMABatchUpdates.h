@@ -1,1 +1,0 @@
-../../../../../BMACollectionBatchUpdates/UICollectionView+BMABatchUpdates.h
