@@ -31,6 +31,14 @@
        applyChangesToModelBlock:(void (^)(void))applyChangesToModelBlock
                 reloadCellBlock:(void (^)(UITableViewCell *cell, NSIndexPath *indexPath))reloadCellBlock
                 completionBlock:(void (^)(void))completionBlock {
+    [self bma_performBatchUpdates:updates withAnimationPolicy:BMAUITableViewAdapterAnimationPolicyDefault applyChangesToModelBlock:applyChangesToModelBlock reloadCellBlock:reloadCellBlock completionBlock:completionBlock];
+}
+
+- (void)bma_performBatchUpdates:(NSArray *)updates
+            withAnimationPolicy:(BMAUITableViewAdapterAnimationPolicy)animation
+       applyChangesToModelBlock:(void (^)(void))applyChangesToModelBlock
+                reloadCellBlock:(void (^)(UITableViewCell *cell, NSIndexPath *indexPath))reloadCellBlock
+                completionBlock:(void (^)(void))completionBlock {
     if (!updates) {
         if (applyChangesToModelBlock) {
             applyChangesToModelBlock();
@@ -68,11 +76,11 @@
                 }
                 case BMACollectionUpdateTypeDelete:
                     [self deleteRowsAtIndexPaths:@[ itemUpdate.indexPath ]
-                                withRowAnimation:UITableViewRowAnimationAutomatic];
+                                withRowAnimation:animation.deleteRow];
                     break;
                 case BMACollectionUpdateTypeInsert:
                     [self insertRowsAtIndexPaths:@[ itemUpdate.indexPathNew ]
-                                withRowAnimation:UITableViewRowAnimationAutomatic];
+                                withRowAnimation:animation.insertRow];
                     break;
                 case BMACollectionUpdateTypeMove:
                     [self moveRowAtIndexPath:itemUpdate.indexPath
@@ -86,15 +94,15 @@
             switch (update.type) {
                 case BMACollectionUpdateTypeReload:
                     [self reloadSections:[NSIndexSet indexSetWithIndex:sectionUpdate.sectionIndex]
-                        withRowAnimation:UITableViewRowAnimationAutomatic];
+                        withRowAnimation:animation.reloadSection];
                     break;
                 case BMACollectionUpdateTypeDelete:
                     [self deleteSections:[NSIndexSet indexSetWithIndex:sectionUpdate.sectionIndex]
-                        withRowAnimation:UITableViewRowAnimationAutomatic];
+                        withRowAnimation:animation.deleteSection];
                     break;
                 case BMACollectionUpdateTypeInsert:
                     [self insertSections:[NSIndexSet indexSetWithIndex:sectionUpdate.sectionIndexNew]
-                        withRowAnimation:UITableViewRowAnimationAutomatic];
+                        withRowAnimation:animation.insertSection];
                     break;
                 case BMACollectionUpdateTypeMove:
                     [self moveSection:sectionUpdate.sectionIndex

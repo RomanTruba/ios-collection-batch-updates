@@ -24,6 +24,27 @@
 
 @import UIKit;
 
+typedef struct BMAUITableViewAdapterAnimationPolicy {
+    UITableViewRowAnimation insertSection;
+    UITableViewRowAnimation deleteSection;
+    UITableViewRowAnimation reloadSection;
+
+    UITableViewRowAnimation insertRow;
+    UITableViewRowAnimation deleteRow;
+    UITableViewRowAnimation reloadRow;
+
+} BMAUITableViewAdapterAnimationPolicy;
+
+static BMAUITableViewAdapterAnimationPolicy
+const BMAUITableViewAdapterAnimationPolicyDefault = {
+    .insertSection = UITableViewRowAnimationAutomatic,
+    .deleteSection = UITableViewRowAnimationAutomatic,
+    .reloadSection = UITableViewRowAnimationAutomatic,
+    .insertRow = UITableViewRowAnimationAutomatic,
+    .deleteRow = UITableViewRowAnimationAutomatic,
+    .reloadRow = UITableViewRowAnimationAutomatic
+};
+
 @interface UITableView (BMABatchUpdates)
 
 /// Performs given updates in batch and animated fashion
@@ -32,6 +53,18 @@
 /// @param reloadCellBlock optional block in which cells are to be updated
 /// @param completionBlock optional completion block
 - (void)bma_performBatchUpdates:(NSArray *)updates
+       applyChangesToModelBlock:(void (^)(void))applyChangesToModelBlock
+                reloadCellBlock:(void (^)(UITableViewCell *cell, NSIndexPath *indexPath))reloadCellBlock
+                completionBlock:(void (^)(void))completionBlock;
+
+/// Performs given updates in batch and animated fashion
+/// @param updates updates to be performed: array of BMACollectionUpdate instances, if nil reloads data
+/// @param animation required animation policy for table edits
+/// @param applyChangesToModelBlock block in which changes should be applied
+/// @param reloadCellBlock optional block in which cells are to be updated
+/// @param completionBlock optional completion block
+- (void)bma_performBatchUpdates:(NSArray *)updates
+            withAnimationPolicy:(BMAUITableViewAdapterAnimationPolicy)animation
        applyChangesToModelBlock:(void (^)(void))applyChangesToModelBlock
                 reloadCellBlock:(void (^)(UITableViewCell *cell, NSIndexPath *indexPath))reloadCellBlock
                 completionBlock:(void (^)(void))completionBlock;
